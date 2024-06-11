@@ -7,13 +7,15 @@ import EventItem from "./EventItem.jsx";
 
 export default function FindEventSection() {
   const searchElement = useRef();
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState();
 
-  const { data, isPending, isError, error } = useQuery({
+  // We should use "isLoading" instead of "isPending" because "isLoading" is "false" when react-query is not enabled and "true" when react-query is enabled and actually loading data via HTTP request.
+  const { data, isLoading, isError, error } = useQuery({
     queryKey: ["events", { search: searchTerm }],
     queryFn: ({ signal }) => {
       return fetchEvents({ signal, searchTerm });
     },
+    enabled: searchTerm !== undefined,
     staleTime: 5000,
   });
 
@@ -24,7 +26,7 @@ export default function FindEventSection() {
 
   let content = <p>Please enter a search term and to find events.</p>;
 
-  if(isPending) {
+  if(isLoading) {
     content = <LoadingIndicator />
   }
 
