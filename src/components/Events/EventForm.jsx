@@ -79,7 +79,7 @@ export default function EventForm({ inputData, onSubmit, children }) {
         />
       </p>
 
-      <p className="form-actions">{children}</p>
+      {children}
     </form>
   );
 }
