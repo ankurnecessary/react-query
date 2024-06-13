@@ -31,7 +31,7 @@ export async function createNewEvent(eventData) {
   if(!response.ok) {
     const error = new Error('An error occurred while creating the event');
     error.code = response.status;
-    error.info = await response.json();
+    error.message = (await response.json()).message;
     throw error;
   }
 
